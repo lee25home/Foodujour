@@ -123,9 +123,9 @@ module.exports = function(passport) {
 
  //Facebook Strategy
   passport.use(new FacebookStrategy({
-      clientID:     config.FacebookAuth.clientId,
-      clientSecret: config.FacebookAuth.clientSecret,
-      callbackURL:  config.FacebookAuth.callbackURL,
+      clientID:     config.FacebookAuth.clientId || 'oranges',
+      clientSecret: config.FacebookAuth.clientSecret || 'oranges',
+      callbackURL:  config.FacebookAuth.callbackURL || 'oranges',
       profileFields: ['id', 'displayName', 'emails'],
       enableProof: false
     },
