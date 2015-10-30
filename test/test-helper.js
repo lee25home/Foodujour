@@ -1,6 +1,7 @@
 var travis = (process.env.TRAVIS ? process.env.TRAVIS.trim().toLowerCase() === 'true' : false);
 require('dotenv').load({ silent: travis });
 process.env.NODE_ENV = 'test';
+process.env.PORT = 7357;
 
 // The following allows you to require files independent of
 // the location of your test file.
@@ -9,40 +10,19 @@ process.env.NODE_ENV = 'test';
 //
 global.__server = __dirname + '/../server';
 global.__client = __dirname + '/../client';
-
-//
+global.db = require(__server + '/lib/db');
 // Assertions
-//
 var chai = require('chai');
 // Option 1: Make the `expect` function available in every test file
 global.expect = chai.expect;
 // Option 2: Make everything should-able
-// chai.should()
+chai.should();
 
 
-//
 // Helper Functions
 //
 // This is the object you can attach any helper functions used across
 // several test files.
 global.TestHelper = {};
 
-//
-// Mock apps for API testing
-//
-var express = require('express');
-
-TestHelper.createApp = function (loader) {
-  var app = express();
-  app.use(require('body-parser').json());
-
-  app.testReady = function () {
-    // Log all errors
-    app.use(function (err, req, res, next) {
-      console.error('==Error==');
-      console.error('   ' + err.stack);
-      next(err);
-    });
-  };
-  return app;
-};
+TestHelper.createApp = require(__server + '/app');

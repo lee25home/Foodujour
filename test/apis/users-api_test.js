@@ -1,7 +1,11 @@
-/*var request = require('supertest');
+var request = require('supertest');
 var agent = request.agent(TestHelper.createApp);
 
-describe('Entries API', function() {
+// API Routes
+var signup = '/api/users/auth/signup';
+var login = '/api/users/auth/login';
+
+describe('User API - Local', function() {
   before(function() {
     return db.deleteEverything();
   });
@@ -92,5 +96,24 @@ describe('Entries API', function() {
       });
     });
 
+    it('logs in if username and password are correct', function(done) {
+      agent.post(login)
+      .send({ username: 'nanner12', password: 'nanner12' })
+      .end(function(err, res) {
+        expect(res.body.loggedIn).to.equal(true);
+        done();
+      });
+    });
   });
-});*/
+
+  describe('User Logout', function() {
+    it('logs out a user', function(done) {
+      agent.post('/api/users/auth/logout')
+      .send()
+      .end(function(err, res) {
+        expect(res.body.loggedIn).to.equal(false);
+        done();
+      });
+    });
+  });
+});

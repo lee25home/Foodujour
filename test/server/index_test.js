@@ -1,11 +1,8 @@
 var request = require('supertest');
-var routes = require(__server + '/app.js');
 
 describe('The Server', function() {
 
-  var app = TestHelper.createApp();
-  app.use('/', routes);
-  app.testReady();
+  var app = TestHelper.createApp;
 
   it('serves an example endpoint', function() {
 

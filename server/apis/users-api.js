@@ -23,6 +23,7 @@ UsersAPI.post('/auth/signup',
 
 UsersAPI.post('/auth/login',
   function(req, res, next) {
+    console.log(req.body);
     passport.authenticate('local-login', function(err, user, info) {
         if (err) {
           // Some error
@@ -38,7 +39,7 @@ UsersAPI.post('/auth/login',
           if (err) { return res.send({ loggedIn: false, err: true, info: info }); }
         });
         res.cookie('isLoggedIn', true);
-        return res.send({ loggedIn: true });
+        return res.status(201).send({ loggedIn: true });
       })(req, res, next);
     }
 );
