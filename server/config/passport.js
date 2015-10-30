@@ -75,8 +75,8 @@ module.exports = function(passport) {
   // Google Strategy
   passport.use(new GoogleStrategy({
       clientID:     config.GoogleAuth.clientId || 'banana',
-      clientSecret: config.GoogleAuth.clientSecret,
-      callbackURL: config.GoogleAuth.callbackURL,
+      clientSecret: config.GoogleAuth.clientSecret || 'banana',
+      callbackURL: config.GoogleAuth.callbackURL || 'banana',
       passReqToCallback   : true
        //NOTE :
       //Carefull ! and avoid usage of Private IP, otherwise you will get the
