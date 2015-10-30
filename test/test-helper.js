@@ -1,7 +1,6 @@
 var travis = (process.env.TRAVIS ? process.env.TRAVIS.trim().toLowerCase() === 'true' : false);
 require('dotenv').load({ silent: travis });
 process.env.NODE_ENV = 'test';
-process.env.PORT = 7357;
 
 // The following allows you to require files independent of
 // the location of your test file.
