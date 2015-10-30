@@ -1,12 +1,21 @@
 // var db = require(__server + '/lib/db');
 // var request = require('supertest-as-promised');
 // var MealsAPI = require(__server + '/apis/meals-api');
+// var request = require('supertest');
+// var agent = request.agent(TestHelper.createApp);
 //
-// describe('Meals API', function() {
+// // API Routes
+// var signup = '/api/users/auth/signup';
+// var login = '/api/users/auth/login';
 //
-//   var app = TestHelper.createApp;
-//   // app.use('/meals', MealsAPI);
-//   // app.testReady();
+// xdescribe('Meals API', function() {
+//   before(function() {
+//     agent.post(login)
+//       .send({ username: 'nanner34', password: 'nanner34' })
+//       .end(function(err, res) {
+//         console.log('login', res.body);
+//       });
+//   });
 //
 //   // valid meal should insert
 //   var meal1 = {
@@ -38,109 +47,17 @@
 //     image: 'https://img.google.com/horsehead.png'
 //   };
 //
-//   // Condensed insert methods
-//   var singlePost = function(item, route, codeToExpect) {
-//     return request(app)
-//       .post(route)
-//       .send(item)
-//       .expect(codeToExpect);
-//   };
+//   describe('testing before', function() {
+//     // it('POST /meal adds a new meal', function(done) {
+//     //   agent.post()
+//     // });
 //
-//   beforeEach(function() {
-//     // erase db before each test runs
-//     return db.deleteEverything();
-//   });
-//
-//   it('POST /meals returns 400 on bad data request', function() {
-//     return singlePost(invalidMeal, '/meals', 400)
-//         .then(function() {
-//         return request(app)
-//           .get('/meals')
-//           .expect(200)
-//           .expect(function(response) {
-//             var meals = response.body;
-//             expect(meals).to.be.an.instanceOf(Array);
-//             expect(meals).to.have.length(0);
-//           });
+//     it('GET /meals returns array of meals belonging to user', function(done) {
+//       agent.get('/api/meals/')
+//       .end(function(err, res) {
+//         console.log(res.body);
+//         done();
 //       });
-//   });
-//
-//   it('POST /meals creates a meal and returns meal with id', function() {
-//     return singlePost(meal1, '/meals', 201)
-//       .expect(function(response) {
-//         var newPet = response.body;
-//
-//         expect(newPet.id).to.not.be.undefined;
-//         expect(newPet.user_id).to.equal('a1234asdfavar1');
-//         expect(newPet.name).to.equal('Hollaburger');
-//         expect(newPet.location).to.equal('Hollaville, USA');
-//         expect(newPet.rating).to.equal(2);
-//         expect(newPet.image).to.equal('https://img.google.com/horsehead.png');
-//       })
-//       .then(function(){
-//         return request(app)
-//           .get('/meals')
-//           .expect(200)
-//           .expect(function(response) {
-//             var meals = response.body;
-//             expect(meals).to.be.an.instanceOf(Array);
-//             expect(meals).to.have.length(1);
-//             expect(meals[0].name).to.equal('Hollaburger');
-//           });
-//       });
-//   });
-//
-//   it('GET /meals returns an array with all the meals', function() {
-//     return singlePost(meal1, '/meals', 201)
-//       .then(function() {
-//         return singlePost(meal2, '/meals', 201);
-//       })
-//       .then(function(){
-//         return request(app)
-//           .get('/meals')
-//           .expect(200)
-//           .expect(function(response) {
-//             var meals = response.body;
-//             expect(meals).to.be.an.instanceOf(Array);
-//             expect(meals).to.have.length(2);
-//             expect(meals[0].name).to.equal('Hollaburger');
-//             expect(meals[1].name).to.equal('Dead Lobster');
-//           });
-//       });
-//   });
-//
-//   it('GET /meals/:id returns 404 if meal does not exist', function() {
-//     return singlePost(meal1, '/meals', 201)
-//       .then(function() {
-//         return singlePost(meal2, '/meals', 201);
-//       })
-//       .then(function(response){
-//         var mealId = response.body.id;
-//         return request(app)
-//           .get('/meals/831234')
-//           .expect(404);
-//       });
-//   });
-//
-//   it('GET /meals/:id returns meal object if it exists', function() {
-//     return singlePost(meal1, '/meals', 201)
-//       .then(function() {
-//         return singlePost(meal2, '/meals', 201);
-//       })
-//       .then(function(response){
-//         var mealId = response.body.id;
-//         return request(app)
-//           .get('/meals/' + mealId)
-//           .expect(200)
-//           .expect(function(response) {
-//             var meal = response.body;
-//             expect(meal).to.be.an.instanceOf(Object);
-//             expect(meal).to.not.be.an.instanceOf(Array);
-//             expect(meal.user_id).to.equal('b12asdfavar1');
-//             expect(meal.name).to.equal('Dead Lobster');
-//             expect(meal.location).to.equal('Rooflecoast, US');
-//             expect(meal.rating).to.equal(2);
-//           });
-//       });
+//     });
 //   });
 // });
