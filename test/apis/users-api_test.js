@@ -1,5 +1,5 @@
-var request = require('supertest');
-var agent = request.agent(TestHelper.createApp);
+// var request = require('supertest');
+var agent = require('supertest-as-promised').agent(TestHelper.createApp);
 
 // API Routes
 var signup = '/api/users/auth/signup';
@@ -12,9 +12,9 @@ describe('User API - Local', function() {
 
   describe('User Signup', function() {
     it('errors if username is not provided for signup', function(done) {
-      agent.post(signup)
+      return agent.post(signup)
       .send({ username: '', password: 'noots' })
-      .end(function(err, res) {
+      .then(function(res) {
         expect(res.body.signedUp).to.equal(false);
         expect(res.body.info.message).to.equal('Missing credentials');
         done();
@@ -22,9 +22,9 @@ describe('User API - Local', function() {
     });
 
     it('errors if password is not provided for signup', function(done) {
-      agent.post(signup)
+      return agent.post(signup)
       .send({ username: 'nanner1', password: '' })
-      .end(function(err, res) {
+      .then(function(res) {
         expect(res.body.signedUp).to.equal(false);
         expect(res.body.info.message).to.equal('Missing credentials');
         done();
@@ -32,18 +32,18 @@ describe('User API - Local', function() {
     });
 
     it('signs up a user', function(done) {
-      agent.post(signup)
+      return agent.post(signup)
       .send({ username: 'nanner12', password: 'nanner12' })
-      .end(function(err, res) {
+      .then(function(res) {
         expect(res.body.signedUp).to.equal(true);
         done();
       });
     });
 
     it('errors if user already exists', function(done) {
-      agent.post(signup)
+      return agent.post(signup)
       .send({ username: 'nanner12', password: 'nanner' })
-      .end(function(err, res) {
+      .then(function(res) {
         expect(res.body.signedUp).to.equal(false);
         expect(res.body.info.message).to.equal('User Already exists');
         done();
@@ -53,9 +53,9 @@ describe('User API - Local', function() {
 
   describe('User Login', function() {
     it('errors if username is not provided for login', function(done) {
-      agent.post(login)
+      return agent.post(login)
       .send({ username: '', password: 'noots' })
-      .end(function(err, res) {
+      .then(function(res) {
         expect(res.body.loggedIn).to.equal(false);
         expect(res.body.noUser).to.equal(true);
         expect(res.body.info.message).to.equal('Missing credentials');
@@ -66,7 +66,7 @@ describe('User API - Local', function() {
     it('errors if password is not provided for login', function(done) {
       agent.post(login)
       .send({ username: 'nanner1', password: '' })
-      .end(function(err, res) {
+      .then(function(res) {
         expect(res.body.loggedIn).to.equal(false);
         expect(res.body.noUser).to.equal(true);
         expect(res.body.info.message).to.equal('Missing credentials');
@@ -77,7 +77,7 @@ describe('User API - Local', function() {
     it('errors if user does not exist', function(done) {
       agent.post(login)
       .send({ username: 'nanner1', password: 'nanner12' })
-      .end(function(err, res) {
+      .then(function(res) {
         expect(res.body.loggedIn).to.equal(false);
         expect(res.body.noUser).to.equal(true);
         expect(res.body.info.message).to.equal('Incorrect username');
@@ -88,7 +88,7 @@ describe('User API - Local', function() {
     it('errors if password is incorrect', function(done) {
       agent.post(login)
       .send({ username: 'nanner12', password: 'nannerwrong' })
-      .end(function(err, res) {
+      .then(function(res) {
         expect(res.body.loggedIn).to.equal(false);
         expect(res.body.noUser).to.equal(true);
         expect(res.body.info.message).to.equal('Incorrect password');
@@ -99,7 +99,7 @@ describe('User API - Local', function() {
     it('logs in if username and password are correct', function(done) {
       agent.post(login)
       .send({ username: 'nanner12', password: 'nanner12' })
-      .end(function(err, res) {
+      .then(function(res) {
         expect(res.body.loggedIn).to.equal(true);
         done();
       });
@@ -110,7 +110,7 @@ describe('User API - Local', function() {
     it('logs out a user', function(done) {
       agent.post('/api/users/auth/logout')
       .send()
-      .end(function(err, res) {
+      .then(function(res) {
         expect(res.body.loggedIn).to.equal(false);
         done();
       });

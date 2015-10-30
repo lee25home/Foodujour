@@ -1,19 +1,22 @@
 // var db = require(__server + '/lib/db');
 // var request = require('supertest-as-promised');
 // var MealsAPI = require(__server + '/apis/meals-api');
-// var request = require('supertest');
-// var agent = request.agent(TestHelper.createApp);
+// var agent = require('supertest-as-promised').agent(TestHelper.createApp);
 //
 // // API Routes
 // var signup = '/api/users/auth/signup';
 // var login = '/api/users/auth/login';
 //
-// xdescribe('Meals API', function() {
+// describe('Meals API', function() {
 //   before(function() {
-//     agent.post(login)
+//     return agent.post(signup)
 //       .send({ username: 'nanner34', password: 'nanner34' })
-//       .end(function(err, res) {
-//         console.log('login', res.body);
+//       .then(function(res) {
+//         agent.post(login)
+//           .send({ username: 'nanner34', password: 'nanner34' })
+//           .then(function(res) {
+//             console.log('login', res.body);
+//           });
 //       });
 //   });
 //
@@ -53,8 +56,8 @@
 //     // });
 //
 //     it('GET /meals returns array of meals belonging to user', function(done) {
-//       agent.get('/api/meals/')
-//       .end(function(err, res) {
+//       agent.get('/api/meals/all')
+//       .then(function(res) {
 //         console.log(res.body);
 //         done();
 //       });
