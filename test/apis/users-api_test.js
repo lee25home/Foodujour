@@ -108,12 +108,12 @@ describe('User API - Local', function() {
 
   describe('User Logout', function() {
     it('logs out a user', function(done) {
-      agent.post('/api/users/auth/logout')
-      .send()
-      .then(function(res) {
-        expect(res.body.loggedIn).to.equal(false);
-        done();
-      });
+      return agent.post('/api/users/auth/logout')
+        .send()
+        .then(function(res) {
+          expect(res.body.loggedIn).to.equal(false);
+          done();
+        });
     });
   });
 });
